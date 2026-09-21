@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace ProectIS
 {
@@ -84,8 +85,66 @@ namespace ProectIS
         static void Main(string[] args)
         {
             //Menu();
-            int[] ints = { 1, 2, 3, 4, 5};
-            Console.WriteLine(Function(ints));
+            //int[] ints = { 1, 2, 3, 4, 5};
+            //Console.WriteLine(Function(ints));
+            string[] lines = File.ReadAllLines("C:\\Users\\Родион\\-\\ProectIS\\laba1.txt");
+            int count = lines.Length;
+            int len = lines[0].Length;
+
+            string str = string.Join("", lines);
+            char[] mas = str.ToCharArray();
+
+            char[,] matrix = new char[count, len];
+
+            for (int i = 0; i < count; i++)
+            {
+                for (int j = 0; j < len; j++)
+                {
+                    matrix[i, j] = mas[i * len + j];
+                    Console.Write(mas[i * len + j]);
+                }
+                Console.WriteLine();
+            }
+
+            int x = int.Parse(Console.ReadLine());
+            int y = int.Parse(Console.ReadLine());
+
+            if (x > 0 && x < len && y > 0 && y < count)
+            {
+                if (matrix[x, y] == '.' && matrix[x, y + 1] == '.')
+                {
+                    matrix[x, y] = '#';
+                    matrix[x, y + 1] = '#';
+                    Console.WriteLine(matrix[x, y] + " " + matrix[x, y + 1]);
+                }
+                if (matrix[x, y] == '.' && matrix[x, y - 1] == '.')
+                {
+                    matrix[x, y] = '#';
+                    matrix[x, y + 1] = '#';
+                    Console.WriteLine(matrix[x, y] + " " + matrix[x, y - 1]);
+                }
+                if (matrix[x, y] == '.' && matrix[x + 1, y] == '.')
+                {
+                    matrix[x, y] = '#';
+                    matrix[x, y + 1] = '#';
+                    Console.WriteLine(matrix[x, y] + " " + matrix[x + 1, y]);
+                }
+                if (matrix[x, y] == '.' && matrix[x - 1, y] == '.')
+                {
+                    matrix[x, y] = '#';
+                    matrix[x, y + 1] = '#';
+                    Console.WriteLine(matrix[x, y] + " " + matrix[x - 1, y]);
+                }
+            }
+            for (int i = 0; i < count; i++)
+            {
+                for (int j = 0; j < len; j++)
+                {
+                    matrix[i, j] = mas[i * len + j];
+                    Console.Write(mas[i * len + j]);
+                }
+                Console.WriteLine();
+            }
         }
     }
 }
