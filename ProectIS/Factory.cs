@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,8 +9,21 @@ namespace ProectIS
 {
     public class Factory
     {
-        public List<Sea> seas {  get; set; } = new List<Sea>();
-        public Sea CreateSeas(string str)
+        public Sea CreateSea(List<string> prop)
+        {
+            double depth = double.Parse(prop[2], CultureInfo.InvariantCulture);
+            double salinity = double.Parse(prop[3], CultureInfo.InvariantCulture);
+            
+            switch (prop[0])
+            {
+                case "окраинное": return new MarginalSea(prop[1], depth, salinity, prop[4]);
+                case "внутреннее": return new InlandSea(prop[1], depth, salinity, bool.Parse(prop[4]));
+                case "море": return new Sea(prop[1], depth, salinity);
+                default: return null;
+            }
+        }
+
+        public List<string> Splitting(string str)
         {
             while (str.Contains("  "))
             {
@@ -19,16 +31,7 @@ namespace ProectIS
             }
             string[] prop = str.Split(' ');
 
-            Sea sea = new Sea();
-            sea.Name = prop[prop.Length - 3];
-            sea.Depth = double.Parse(prop[prop.Length - 2], CultureInfo.InvariantCulture);
-            sea.Salinity = double.Parse(prop[prop.Length - 1], CultureInfo.InvariantCulture);
-
-            return sea;
-        }
-        public void AddSeas(Sea sea)
-        {
-            seas.Add(sea);
+            return prop.ToList();
         }
     }
 }

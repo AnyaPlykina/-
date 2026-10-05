@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -111,35 +112,129 @@ namespace ProectIS
         //}
         static void Main(string[] args)
         {
-            string[] lines = File.ReadAllLines("C:\\Users\\Родион\\Desktop\\задание1.txt");
-            Dictionary<string, List<string>> dict = new Dictionary<string, List<string>>();
-            foreach (string line in lines)
+            List<Sea> seas = new List<Sea>();
+            Factory factory = new Factory();
+            while (true)
             {
-                string newLine = line.Replace("->", "-");
-                string[] str = newLine.Split('-');
-                string mainVertex = str[0];
-                string vertex = str[1];
-                List<string> list = new List<string>();
-                list.Add(str[1]);
-                if (!dict.ContainsKey(mainVertex))
+                Console.WriteLine("1. Считать с файла.");
+                Console.WriteLine("2. Считать с консоли.");
+                Console.WriteLine("3. Показать список всех объектов.");
+                Console.WriteLine("4. Записать в файл.");
+                Console.WriteLine("5. Выход");
+                Console.WriteLine("\nВведите число:");
+                string input = Console.ReadLine();
+
+                switch (input)
                 {
-                    dict.Add(mainVertex, list);
-                }
-                else if (!dict[mainVertex].Contains(vertex))
-                {
-                    dict[mainVertex].Add(vertex);
+                    case "1":
+                        string[] lines = File.ReadAllLines("C:\\Users\\Родион\\-\\ProectIS\\laba2.txt");
+                        foreach (string line in lines)
+                        {
+                            List<string> prop = factory.Splitting(line);
+                            if (prop.Count() == 6)
+                            {
+                                prop.RemoveAt(1);
+
+                                if (prop[4] == "да") prop[4] = "true";
+                                else if (prop[4] == "нет") prop[4] = "false";
+                            }
+
+                            Sea s = factory.CreateSea(prop);
+                            seas.Add(s);
+                        }
+                        Console.WriteLine();
+                        break;
+
+                    case "2":
+                        Console.WriteLine("\nНапишите вид моря (море, окраинное, внутреннее)");
+                        string type = Console.ReadLine();
+
+                        Console.WriteLine("\nНапишите название, глубину и соленость моря (через пробел):");
+                        string str = Console.ReadLine();
+                        List<string> properties = factory.Splitting(str);
+                        properties.Insert(0, type.ToLower());
+
+                        if (type.ToLower() == "окраинное")
+                        {
+                            Console.WriteLine("\nНапишите название океана, которому море принадлежит:");
+                            string nameOcean = Console.ReadLine();
+                            properties.Add(nameOcean);
+                        }
+                        else if (type.ToLower() == "внутреннее")
+                        {
+                            Console.WriteLine("\nОбладает высокой испаряемостью?");
+                            string isHighlyEvaporating = Console.ReadLine();
+                            properties.Add(isHighlyEvaporating);
+                            if (properties[4] == "да") properties[4] = "true";
+                            else if (properties[4] == "нет") properties[4] = "false";
+                        }
+                        Sea sea = factory.CreateSea(properties);
+                        seas.Add(sea);
+
+                        Console.WriteLine();
+                        break;
+
+                    case "3":
+                        Console.WriteLine("\nВсе моря:");
+                        foreach (Sea sea1 in seas)
+                        {
+                            Console.WriteLine("Родитель: " + sea1.GetType().BaseType.Name + sea1.Print());
+                        }
+                        Console.WriteLine();
+                        break;
+
+                    case "4":
+                        string text = "";
+                        foreach (Sea sea1 in seas)
+                        {
+                            text += sea1.Print();
+                            text += "\n";
+                        }
+                        string path = "C:\\Users\\Родион\\-\\ProectIS\\output.txt";
+                        File.WriteAllText(path, text);
+                        break;
+
+                    case "5":
+                        return;
+
+
+                    default:
+                        Console.WriteLine("\nВведите корректное число.\n");
+                        break;
                 }
             }
 
-            foreach (string key in dict.Keys)
-            {
-                Console.Write($"{key}: ");
-                foreach (string value in dict[key])
-                {
-                    Console.Write(value + " ");
-                }
-                Console.WriteLine();
-            }
+
+
+            //string[] lines = File.ReadAllLines("C:\\Users\\Родион\\Desktop\\задание1.txt");
+            //Dictionary<string, List<string>> dict = new Dictionary<string, List<string>>();
+            //foreach (string line in lines)
+            //{
+            //    string newLine = line.Replace("->", "-");
+            //    string[] str = newLine.Split('-');
+            //    string mainVertex = str[0];
+            //    string vertex = str[1];
+            //    List<string> list = new List<string>();
+            //    list.Add(str[1]);
+            //    if (!dict.ContainsKey(mainVertex))
+            //    {
+            //        dict.Add(mainVertex, list);
+            //    }
+            //    else if (!dict[mainVertex].Contains(vertex))
+            //    {
+            //        dict[mainVertex].Add(vertex);
+            //    }
+            //}
+
+            //foreach (string key in dict.Keys)
+            //{
+            //    Console.Write($"{key}: ");
+            //    foreach (string value in dict[key])
+            //    {
+            //        Console.Write(value + " ");
+            //    }
+            //    Console.WriteLine();
+            //}
 
 
             ////Menu();
