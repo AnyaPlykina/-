@@ -13,11 +13,10 @@ namespace ProectIS
         {
             IsHighlyEvaporating = isHighlyEvaporating;
         }
-        public override string NameTypeParent => "Sea";
         public override string Print()
         {
             string s = "";
-            s += $" название: {Name}; глубина: {Depth}; соленость: {Salinity}; обладает высокой испаряемостью: {IsHighlyEvaporating}";
+            s += $"Родитель: {this.GetType().BaseType.Name}; название: {Name}; глубина: {Depth}; соленость: {Salinity}; обладает высокой испаряемостью: {IsHighlyEvaporating}";
             return s;
         }
     }

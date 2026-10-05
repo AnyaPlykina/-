@@ -146,7 +146,7 @@ namespace ProectIS
                         break;
 
                     case "2":
-                        Console.WriteLine("\nНапишите вид моря (море, окраинное, внутреннее)");
+                        Console.WriteLine("\nНапишите вид моря (море, окраинное, внутреннее, межостровное)");
                         string type = Console.ReadLine();
 
                         Console.WriteLine("\nНапишите название, глубину и соленость моря (через пробел):");
@@ -168,6 +168,12 @@ namespace ProectIS
                             if (properties[4] == "да") properties[4] = "true";
                             else if (properties[4] == "нет") properties[4] = "false";
                         }
+                        if (type.ToLower() == "межостровное")
+                        {
+                            Console.WriteLine("\nНапишите количество островов, которые окружают море:");
+                            string surroundingIslandsCount = Console.ReadLine();
+                            properties.Add(surroundingIslandsCount);
+                        }
                         Sea sea = factory.CreateSea(properties);
                         seas.Add(sea);
 
@@ -178,7 +184,7 @@ namespace ProectIS
                         Console.WriteLine("\nВсе моря:");
                         foreach (Sea sea1 in seas)
                         {
-                            Console.WriteLine("Родитель: " + sea1.GetType().BaseType.Name + sea1.Print());
+                            Console.WriteLine(sea1.Print());
                         }
                         Console.WriteLine();
                         break;
@@ -196,7 +202,6 @@ namespace ProectIS
 
                     case "5":
                         return;
-
 
                     default:
                         Console.WriteLine("\nВведите корректное число.\n");

@@ -17,11 +17,10 @@ namespace ProectIS
             Depth = depth;
             Salinity = salinity;
         }
-        public virtual string NameTypeParent => "-";
         public virtual string Print()
         {
             string s = "";
-            s += $" название: {Name}; глубина: {Depth}; соленость: {Salinity}";
+            s += $"Родитель: {this.GetType().BaseType.Name}; название: {Name}; глубина: {Depth}; соленость: {Salinity}";
             return s;
         }
     }

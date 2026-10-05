@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,11 +14,10 @@ namespace ProectIS
         {
             OceanName = oceanName;
         }
-        public override string NameTypeParent => "Sea";
         public override string Print()
         {
             string s = "";
-            s += $" название: {Name}; глубина: {Depth}; соленость: {Salinity}; название океана: {OceanName}";
+            s += $"Родитель: {this.GetType().BaseType.Name}; название: {Name}; глубина: {Depth}; соленость: {Salinity}; название океана: {OceanName}";
             return s;
         }
     }

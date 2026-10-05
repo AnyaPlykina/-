@@ -18,6 +18,7 @@ namespace ProectIS
             {
                 case "окраинное": return new MarginalSea(prop[1], depth, salinity, prop[4]);
                 case "внутреннее": return new InlandSea(prop[1], depth, salinity, bool.Parse(prop[4]));
+                case "межостровное": return new InterIslandSea(prop[1], depth, salinity, int.Parse(prop[4]));
                 case "море": return new Sea(prop[1], depth, salinity);
                 default: return null;
             }
