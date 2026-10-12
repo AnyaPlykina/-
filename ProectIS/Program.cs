@@ -254,7 +254,8 @@ namespace ProectIS
                         Console.WriteLine("\nВведите корректное число.\n");
                         break;
                 }
-
+                Console.WriteLine("Привет, Аня!");
+                Console.WriteLine("Пусть сработает!");
             }
 
 
