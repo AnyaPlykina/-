@@ -11,6 +11,7 @@ namespace ProectIS
 {
     public class Program
     {
+
         ////находит среднее число и выводит два числа близких к нему
         //static (int,int) Function(int[] mas)
         //{
@@ -110,8 +111,53 @@ namespace ProectIS
         //    }
 
         //}
+        }
+        static (int, int, int) Func(int[] mas)
+        {
+            int ind1 = -1;
+            int ind2 = -1;
+            for (int i = 0; i < mas.Length; i++)
+            {
+                if (mas[i] < 0)
+                {
+                    ind1 = i;
+                    break;
+                }
+            }
+            for (int i = mas.Length - 1; i > -1; i--)
+            {
+                if (mas[i] > 0)
+                {
+                    ind2 = i;
+                    break;
+                }
+            }
+            int sum = 0;
+            if (ind1 == -1 || ind2 == -1)
+            {
+                throw new ArgumentNullException("Введены неверные данные");
+            }
+            if (ind2 < ind1)
+            {
+                for (int i = ind2; i <= ind1; i++)
+                {
+                    sum += mas[i];
+                }
+                return (ind1, ind2, sum);
+            }
+            else
+            {
+                for (int i = ind1; i <= ind2; i++)
+                {
+                    sum += mas[i];
+                }
+                return (ind1, ind2, sum);
+            }
+        }
         static void Main(string[] args)
         {
+            int[] ints = { -1, -2, -3, -4, -5};
+            Console.WriteLine(Func(ints));
             List<Sea> seas = new List<Sea>();
             Factory factory = new Factory();
             while (true)
@@ -139,7 +185,7 @@ namespace ProectIS
                                 else if (prop[4] == "нет") prop[4] = "false";
                             }
 
-                            Sea s = factory.CreateSea(prop);
+                            Sea s = factory.CreateSea(prop, line);
                             seas.Add(s);
                         }
                         Console.WriteLine();
@@ -174,7 +220,7 @@ namespace ProectIS
                             string surroundingIslandsCount = Console.ReadLine();
                             properties.Add(surroundingIslandsCount);
                         }
-                        Sea sea = factory.CreateSea(properties);
+                        Sea sea = factory.CreateSea(properties, "");
                         seas.Add(sea);
 
                         Console.WriteLine();
@@ -198,6 +244,7 @@ namespace ProectIS
                         }
                         string path = "C:\\Users\\Родион\\-\\ProectIS\\output.txt";
                         File.WriteAllText(path, text);
+                        Console.WriteLine();
                         break;
 
                     case "5":
