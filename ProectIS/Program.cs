@@ -109,9 +109,7 @@ namespace ProectIS
         //        y = point.y;
         //        //symbol = point.symbol;
         //    }
-
         //}
-        }
         static (int, int, int) Func(int[] mas)
         {
             int ind1 = -1;
@@ -156,7 +154,7 @@ namespace ProectIS
         }
         static void Main(string[] args)
         {
-            int[] ints = { -1, -2, -3, -4, -5};
+            int[] ints = { -1, -2, -3, -4, 5};
             Console.WriteLine(Func(ints));
             List<Sea> seas = new List<Sea>();
             Factory factory = new Factory();
