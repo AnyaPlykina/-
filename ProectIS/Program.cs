@@ -11,7 +11,6 @@ namespace ProectIS
 {
     public class Program
     {
-
         ////находит среднее число и выводит два числа близких к нему
         //static (int,int) Function(int[] mas)
         //{
@@ -110,54 +109,57 @@ namespace ProectIS
         //        //symbol = point.symbol;
         //    }
         //}
-        static (int, int, int) Func(int[] mas)
-        {
-            int ind1 = -1;
-            int ind2 = -1;
-            for (int i = 0; i < mas.Length; i++)
-            {
-                if (mas[i] < 0)
-                {
-                    ind1 = i;
-                    break;
-                }
-            }
-            for (int i = mas.Length - 1; i > -1; i--)
-            {
-                if (mas[i] > 0)
-                {
-                    ind2 = i;
-                    break;
-                }
-            }
-            int sum = 0;
-            if (ind1 == -1 || ind2 == -1)
-            {
-                throw new ArgumentNullException("Введены неверные данные");
-            }
-            if (ind2 < ind1)
-            {
-                for (int i = ind2; i <= ind1; i++)
-                {
-                    sum += mas[i];
-                }
-                return (ind1, ind2, sum);
-            }
-            else
-            {
-                for (int i = ind1; i <= ind2; i++)
-                {
-                    sum += mas[i];
-                }
-                return (ind1, ind2, sum);
-            }
-        }
+        //static (int, int, int) Func(int[] mas)
+        //{
+        //    int ind1 = -1;
+        //    int ind2 = -1;
+        //    for (int i = 0; i < mas.Length; i++)
+        //    {
+        //        if (mas[i] < 0)
+        //        {
+        //            ind1 = i;
+        //            break;
+        //        }
+        //    }
+        //    for (int i = mas.Length - 1; i > -1; i--)
+        //    {
+        //        if (mas[i] > 0)
+        //        {
+        //            ind2 = i;
+        //            break;
+        //        }
+        //    }
+        //    int sum = 0;
+        //    if (ind1 == -1 || ind2 == -1)
+        //    {
+        //        throw new ArgumentNullException("Введены неверные данные");
+        //    }
+        //    if (ind2 < ind1)
+        //    {
+        //        for (int i = ind2; i <= ind1; i++)
+        //        {
+        //            sum += mas[i];
+        //        }
+        //        return (ind1, ind2, sum);
+        //    }
+        //    else
+        //    {
+        //        for (int i = ind1; i <= ind2; i++)
+        //        {
+        //            sum += mas[i];
+        //        }
+        //        return (ind1, ind2, sum);
+        //    }
+        //}
         static void Main(string[] args)
         {
-            int[] ints = { -1, -2, -3, -4, 5};
-            Console.WriteLine(Func(ints));
+            //int[] ints = { -1, -2, -3, -4, 5};
+            //Console.WriteLine(Func(ints));
             List<Sea> seas = new List<Sea>();
             Factory factory = new Factory();
+
+            string inputPath = @"C:\Users\Родион\-\ProectIS\laba2.txt";
+            string outputPath = @"C:\Users\Родион\-\ProectIS\output.txt";
             while (true)
             {
                 Console.WriteLine("1. Считать с файла.");
@@ -171,79 +173,18 @@ namespace ProectIS
                 switch (input)
                 {
                     case "1":
-                        string[] lines = File.ReadAllLines("C:\\Users\\Родион\\-\\ProectIS\\laba2.txt");
-                        foreach (string line in lines)
-                        {
-                            List<string> prop = factory.Splitting(line);
-                            if (prop.Count() == 6)
-                            {
-                                prop.RemoveAt(1);
-
-                                if (prop[4] == "да") prop[4] = "true";
-                                else if (prop[4] == "нет") prop[4] = "false";
-                            }
-
-                            Sea s = factory.CreateSea(prop, line);
-                            seas.Add(s);
-                        }
-                        Console.WriteLine();
+                        LoadFromFile(inputPath, seas, factory);
                         break;
 
                     case "2":
-                        Console.WriteLine("\nНапишите вид моря (море, окраинное, внутреннее, межостровное)");
-                        string type = Console.ReadLine();
-
-                        Console.WriteLine("\nНапишите название, глубину и соленость моря (через пробел):");
-                        string str = Console.ReadLine();
-                        List<string> properties = factory.Splitting(str);
-                        properties.Insert(0, type.ToLower());
-
-                        if (type.ToLower() == "окраинное")
-                        {
-                            Console.WriteLine("\nНапишите название океана, которому море принадлежит:");
-                            string nameOcean = Console.ReadLine();
-                            properties.Add(nameOcean);
-                        }
-                        else if (type.ToLower() == "внутреннее")
-                        {
-                            Console.WriteLine("\nОбладает высокой испаряемостью?");
-                            string isHighlyEvaporating = Console.ReadLine();
-                            properties.Add(isHighlyEvaporating);
-                            if (properties[4] == "да") properties[4] = "true";
-                            else if (properties[4] == "нет") properties[4] = "false";
-                        }
-                        if (type.ToLower() == "межостровное")
-                        {
-                            Console.WriteLine("\nНапишите количество островов, которые окружают море:");
-                            string surroundingIslandsCount = Console.ReadLine();
-                            properties.Add(surroundingIslandsCount);
-                        }
-                        Sea sea = factory.CreateSea(properties, "");
-                        seas.Add(sea);
-
-                        Console.WriteLine();
+                        LoadFromConsole(seas, factory);
                         break;
-
                     case "3":
-                        Console.WriteLine("\nВсе моря:");
-                        foreach (Sea sea1 in seas)
-                        {
-                            Console.WriteLine(sea1.Print());
-                        }
-                        Console.WriteLine();
+                        PrintAllSeas(seas);
                         break;
 
                     case "4":
-                        string text = "";
-                        foreach (Sea sea1 in seas)
-                        {
-                            text += sea1.Print();
-                            text += "\n";
-                        }
-                        string path = "C:\\Users\\Родион\\-\\ProectIS\\output.txt";
-                        File.WriteAllText(path, text);
-                        Console.WriteLine();
-                        break;
+                        SaveToFile(outputPath, seas); break;
 
                     case "5":
                         return;
@@ -253,8 +194,6 @@ namespace ProectIS
                         break;
                 }
             }
-
-
 
             //string[] lines = File.ReadAllLines("C:\\Users\\Родион\\Desktop\\задание1.txt");
             //Dictionary<string, List<string>> dict = new Dictionary<string, List<string>>();
@@ -316,6 +255,95 @@ namespace ProectIS
             //point.x = x;
             //point.y = y;
             //point.symbol = matrix[x, y];
+        }
+        private static void LoadFromFile(string path, List<Sea> seas, Factory factory)
+        {
+            try
+            {
+                foreach (string line in File.ReadAllLines(path))
+                {
+                    var prop = factory.Splitting(line);
+                    NormalizeFileProperties(prop);
+                    AddSeaToList(factory.CreateSea(prop), seas);
+                }
+                Logger.Instance.Info("Загружено из файла.");
+            }
+            catch (Exception ex) { Logger.Instance.PError("Ошибка чтения", ex); }
+        }
+
+        private static void NormalizeFileProperties(List<string> prop)
+        {
+            if (prop.Count != 6) return;
+            prop.RemoveAt(1);
+            if (prop[4].ToLower() == "да") prop[4] = "true";
+            else if (prop[4].ToLower() == "нет") prop[4] = "false";
+        }
+
+        private static void LoadFromConsole(List<Sea> seas, Factory factory)
+        {
+            try
+            {
+                Console.WriteLine("\nВид (море, окраинное, внутреннее, межостровное):");
+                string type = Console.ReadLine().ToLower();
+
+                Console.WriteLine("Название, глубина, соленость (через пробел):");
+                var props = factory.Splitting(Console.ReadLine());
+                props.Insert(0, type);
+
+                RequestSpecificProperties(type, props);
+                AddSeaToList(factory.CreateSea(props), seas);
+            }
+            catch (Exception ex) { Logger.Instance.PError("Ошибка консоли", ex); }
+        }
+
+        private static void RequestSpecificProperties(string type, List<string> props)
+        {
+            if (type == "окраинное") props.Add(GetInput("Океан:"));
+            else if (type == "внутреннее") props.Add(GetBooleanInput("Высокая испаряемость (да/нет):"));
+            else if (type == "межостровное") props.Add(GetInput("Количество островов:"));
+        }
+
+        private static string GetInput(string message)
+        {
+            Console.WriteLine(message);
+            return Console.ReadLine();
+        }
+
+        private static string GetBooleanInput(string message)
+        {
+            string val = GetInput(message).ToLower();
+            return val == "да" ? "true" : "false";
+        }
+
+        private static void AddSeaToList(Sea sea, List<Sea> seas)
+        {
+            if (sea != null)
+            {
+                seas.Add(sea);
+                Logger.Instance.Info("Добавлено.");
+            }
+        }
+
+        private static void PrintAllSeas(List<Sea> seas)
+        {
+            if (seas.Count == 0) Logger.Instance.Info("Пусто.");
+            else
+            {
+                Console.WriteLine("\nВсе моря:");
+                foreach (Sea sea1 in seas) Console.WriteLine(sea1.Print());
+            }
+        }
+
+        private static void SaveToFile(string path, List<Sea> seas)
+        {
+            try
+            {
+                string text = "";
+                foreach (Sea sea1 in seas) text += sea1.Print();
+                File.WriteAllText(path, text);
+                Logger.Instance.Info("Сохранено.");
+            }
+            catch (Exception ex) { Logger.Instance.PError("Ошибка записи", ex); }
         }
     }
 }

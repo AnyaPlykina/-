@@ -46,6 +46,7 @@
     <Compile Include="Factory.cs" />
     <Compile Include="InlandSea.cs" />
     <Compile Include="InterIslandSea.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="MarginalSea.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="Program.cs" />
