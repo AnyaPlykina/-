@@ -18,7 +18,7 @@ namespace ProectIS
             }
             catch (Exception ex)
             {
-                Logger.Instance.PError("Ошибка при создании объекта Sea", ex);
+                AppLogger.Instance.PError("Ошибка при создании объекта Sea", ex);
                 return null;
             }
         }
@@ -35,7 +35,7 @@ namespace ProectIS
                 case "межостровное": return new InterIslandSea(prop[1], depth, salinity, int.Parse(prop[4]));
                 case "море": return new Sea(prop[1], depth, salinity);
                 default:
-                    Logger.Instance.Info($"Неизвестный тип моря: {prop[0]}");
+                    AppLogger.Instance.Info($"Неизвестный тип моря: {prop[0]}");
                     return null;
             }
         }
@@ -54,6 +54,48 @@ namespace ProectIS
             }
             string[] prop = str.Trim().Split(' ');
             return prop.ToList();
+        }
+        //1 положительное последнее отрицательное сумму между ними
+        public static int CalcSum(List<int> list)
+        {
+            int ind1 = -1;
+            int ind2 = -1;
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i] > 0)
+                {
+                    ind1 = i;
+                    break;
+                }
+            }
+            for (int i = list.Count - 1; i > -1; i--)
+            {
+                if (list[i] < 0)
+                {
+                    ind2 = i;
+                    break;
+                }
+            }
+            int sum = 0;
+            if (ind1 == -1 || ind2 == -1)
+                return sum;
+
+            if (ind2 < ind1)
+            {
+                for (int i = ind2+1; i <= ind1; i++)
+                {
+                    sum += list[i];
+                }
+                return sum;
+            }
+            else
+            {
+                for (int i = ind1+1; i <= ind2; i++)
+                {
+                    sum += list[i];
+                }
+                return sum;
+            }
         }
     }
 }

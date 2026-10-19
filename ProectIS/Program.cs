@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace ProectIS
 {
+    [ExcludeFromCodeCoverage]
     public class Program
     {
         ////находит среднее число и выводит два числа близких к нему
@@ -151,7 +153,7 @@ namespace ProectIS
         //        return (ind1, ind2, sum);
         //    }
         //}
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             //int[] ints = { -1, -2, -3, -4, 5};
             //Console.WriteLine(Func(ints));
@@ -190,7 +192,7 @@ namespace ProectIS
                         return;
 
                     default:
-                        Console.WriteLine("\nВведите корректное число.\n");
+                        Console.WriteLine("Некорректный ввод.");
                         break;
                 }
             }
@@ -256,7 +258,7 @@ namespace ProectIS
             //point.y = y;
             //point.symbol = matrix[x, y];
         }
-        private static void LoadFromFile(string path, List<Sea> seas, Factory factory)
+        public static void LoadFromFile(string path, List<Sea> seas, Factory factory)
         {
             try
             {
@@ -266,12 +268,12 @@ namespace ProectIS
                     NormalizeFileProperties(prop);
                     AddSeaToList(factory.CreateSea(prop), seas);
                 }
-                Logger.Instance.Info("Загружено из файла.");
+                AppLogger.Instance.Info("Загружено из файла.");
             }
-            catch (Exception ex) { Logger.Instance.PError("Ошибка чтения", ex); }
+            catch (Exception ex) { AppLogger.Instance.PError("Ошибка чтения", ex); }
         }
 
-        private static void NormalizeFileProperties(List<string> prop)
+        public static void NormalizeFileProperties(List<string> prop)
         {
             if (prop.Count != 6) return;
             prop.RemoveAt(1);
@@ -279,7 +281,7 @@ namespace ProectIS
             else if (prop[4].ToLower() == "нет") prop[4] = "false";
         }
 
-        private static void LoadFromConsole(List<Sea> seas, Factory factory)
+        public static void LoadFromConsole(List<Sea> seas, Factory factory)
         {
             try
             {
@@ -293,57 +295,57 @@ namespace ProectIS
                 RequestSpecificProperties(type, props);
                 AddSeaToList(factory.CreateSea(props), seas);
             }
-            catch (Exception ex) { Logger.Instance.PError("Ошибка консоли", ex); }
+            catch (Exception ex) { AppLogger.Instance.PError("Ошибка консоли", ex); }
         }
 
-        private static void RequestSpecificProperties(string type, List<string> props)
+        public static void RequestSpecificProperties(string type, List<string> props)
         {
             if (type == "окраинное") props.Add(GetInput("Океан:"));
             else if (type == "внутреннее") props.Add(GetBooleanInput("Высокая испаряемость (да/нет):"));
             else if (type == "межостровное") props.Add(GetInput("Количество островов:"));
         }
 
-        private static string GetInput(string message)
+        public static string GetInput(string message)
         {
             Console.WriteLine(message);
             return Console.ReadLine();
         }
 
-        private static string GetBooleanInput(string message)
+        public static string GetBooleanInput(string message)
         {
             string val = GetInput(message).ToLower();
             return val == "да" ? "true" : "false";
         }
 
-        private static void AddSeaToList(Sea sea, List<Sea> seas)
+        public static void AddSeaToList(Sea sea, List<Sea> seas)
         {
             if (sea != null)
             {
                 seas.Add(sea);
-                Logger.Instance.Info("Добавлено.");
+                AppLogger.Instance.Info("Добавлено.");
             }
         }
 
-        private static void PrintAllSeas(List<Sea> seas)
+        public static void PrintAllSeas(List<Sea> seas)
         {
-            if (seas.Count == 0) Logger.Instance.Info("Пусто.");
+            if (seas.Count == 0) Console.WriteLine("Список пуст.");
             else
             {
                 Console.WriteLine("\nВсе моря:");
-                foreach (Sea sea1 in seas) Console.WriteLine(sea1.Print());
+                foreach (Sea sea1 in seas) Console.WriteLine(sea1.ToString());
             }
         }
 
-        private static void SaveToFile(string path, List<Sea> seas)
+        public static void SaveToFile(string path, List<Sea> seas)
         {
             try
             {
                 string text = "";
-                foreach (Sea sea1 in seas) text += sea1.Print();
+                foreach (Sea sea1 in seas) text += sea1.ToString();
                 File.WriteAllText(path, text);
-                Logger.Instance.Info("Сохранено.");
+                AppLogger.Instance.Info("Сохранено.");
             }
-            catch (Exception ex) { Logger.Instance.PError("Ошибка записи", ex); }
+            catch (Exception ex) { AppLogger.Instance.PError("Ошибка записи", ex); }
         }
     }
 }

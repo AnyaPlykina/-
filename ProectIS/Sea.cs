@@ -17,7 +17,7 @@ namespace ProectIS
             Depth = depth;
             Salinity = salinity;
         }
-        public virtual string Print()
+        public override string ToString()
         {
             string s = "";
             s += $"Родитель: {this.GetType().BaseType.Name}; название: {Name}; глубина: {Depth}; соленость: {Salinity}";

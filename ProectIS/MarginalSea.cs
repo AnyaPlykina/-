@@ -15,7 +15,7 @@ namespace ProectIS
         {
             OceanName = oceanName;
         }
-        public override string Print()
+        public override string ToString()
         {
             string s = "";
             s += $"Родитель: {this.GetType().BaseType.Name}; название: {Name}; глубина: {Depth}; соленость: {Salinity}; название океана: {OceanName}";

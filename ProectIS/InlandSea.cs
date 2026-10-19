@@ -13,7 +13,7 @@ namespace ProectIS
         {
             IsHighlyEvaporating = isHighlyEvaporating;
         }
-        public override string Print()
+        public override string ToString()
         {
             string s = "";
             s += $"Родитель: {this.GetType().BaseType.Name}; название: {Name}; глубина: {Depth}; соленость: {Salinity}; обладает высокой испаряемостью: {IsHighlyEvaporating}";
