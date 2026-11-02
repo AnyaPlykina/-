@@ -9,6 +9,13 @@ namespace ProectIS.Tests
     public class CalcSumTests
     {
         [Fact]
+        public void Funct_NormalNums_CorrectSum()
+        {
+            var list = new List<int>() { 1, 2, 3, -1 };
+            int sum = Factory.CalcSum(list);
+            Assert.Equal(5, sum);
+        }
+        [Fact]
         public void Funct_NoPositive_ReturnZero()
         {
             var list = new List<int>() { -1, -1, -1 };
